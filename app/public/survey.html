@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.9.0/d3.min.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -22,18 +25,170 @@
     
     <input type="text" id="photo" class="form-control" required>
     
-    <hr>
+    <br>
 
     <h2>Answer the Questions Below</h2>
     <br>
     <h3>I have a no nonsense policy</h3>
-    <select name="" id="ques1">
+    <select class="select" id="ques1">
         <option value="1">1 (Strongly Disagree)</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
         <option value="5">5 (Strongly Agree)</option>
     </select>
+    
+    <h3>When I am not at work I like to hang out with friends</h3>
+    <select class="select" id="ques2">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>I would say my job is very boring</h3>
+    <select class="select" id="ques3">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>Having fun at work is important</h3>
+    <select class="select" id="ques4">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>I would consider myself creative</h3>
+    <select class="select" id="ques5">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>I like to go with the flow</h3>
+    <select class="select" id="ques6">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>I like personality more than looks</h3>
+    <select class="select" id="ques7">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>I like to have a lot of side hobbies</h3>
+    <select class="select" id="ques8">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>You should devote most of your time to your career</h3>
+    <select class="select" id="ques9">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    
+    <h3>I prefer activities that require you to be outdoors</h3>
+    <select class="select" id="ques10">
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    <hr>
+    
+    <button type="submit" class="btn btn-primary btn-lg" id="submit">
+       Submit
+    </button>
 
+
+    <div id="resModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                    <h2 class="modal-title">Best Match</h2>
+                </div>
+
+                <div class="modal-body">
+                    <h2 id="matchName"></h2>
+                    <img id="matchImg" src="" alt="Placeholder">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        CLose
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#submit").on("click", function(){
+            function validateForm(){
+                var isValid = true;
+                $(".form-control").each(function(){
+                if ($(this).val() === "") isValid = false;
+            });
+            $(".chosen-select").each(function() {
+                if($(this).val() === "") isValid = false;
+            });
+            return isValid;
+        }
+        if(validateForm() === true) {
+            var userData = {
+                name: $("#name").val(),
+                photo: $("#photo").val(),
+                scores: [
+                    $("ques1").val(),
+                    $("ques2").val(),
+                    $("ques3").val(),
+                    $("ques4").val(),
+                    $("ques5").val(),
+                    $("ques6").val(),
+                    $("ques7").val(),
+                    $("ques8").val(),
+                    $("ques9").val(),
+                    $("ques10").val(),
+                ]
+            };
+            var currentURL = window.location.origin;
+
+            $.post(currentURL + "/api/friends", userData, function(data){
+                $("matchName").text(data.name);
+                $("matchImg").attr("src",data.photo);
+                $("#resultsModal").modal("toggle");
+            });
+        }else {
+            alert("Please fill out form before submitting!")
+        }
+    });    
+    </script>
 </body>
 </html>
