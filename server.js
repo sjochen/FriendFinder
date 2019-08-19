@@ -14,6 +14,9 @@ app.get("/", function(req, res) {
 app.get("/survey", function(req, res) {
   res.sendFile(path.join(__dirname, "app/public/survey.html"));
 });
+app.get("/friends", function(req, res) {
+  res.sendFile(path.join(__dirname, "/app/public/friends.js"));
+});
 
 app.listen(PORT, function() {
     console.log("Server is listening on PORT: " + PORT);
