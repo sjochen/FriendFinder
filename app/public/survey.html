@@ -128,19 +128,19 @@
     </select>
     <hr>
 
-    <button type="submit" class="btn btn-primary btn-lg" id="submit">
+    <button type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalLong" id="submit">
         Submit
     </button>
 
 
-    <div id="resultsModal" class="modal fade" role="dialog">
+    <div id="resultsModal" class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
                         &times;
                     </button>
-                    <h2 class="modal-title">Best Match</h2>
+                    <h2 class="modal-title" id="exampleModalLong">Best Match</h2>
                 </div>
 
                 <div class="modal-body">
@@ -150,7 +150,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
-                        CLose
+                        Close
                     </button>
                 </div>
             </div>
@@ -192,7 +192,9 @@
                 $.post(currentURL + "/api/friends", userData, function (data) {
                     $("#matchName").text(data.name);
                     $("#matchImg").attr("src", data.photo);
+                    
                     $("#resultsModal").modal("toggle");
+                    console.log('you mADE IT');
                    
                 });
             } else {
