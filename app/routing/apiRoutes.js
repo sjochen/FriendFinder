@@ -7,15 +7,10 @@ module.exports = function(app){
 
     app.post("/api/friends", function(req,res){
         var diff = 0;
-        var bestMatch = {
-            name: "",
-            photo: "",
-            friendDifference: 1000
-        };
+        var bestMatch;
         var userData = req.body;
-        var userName = userData.name;
         var userScores = userData.scores;
-        
+        var arr = [];
         var b = userScores.map(function(item){
             return parseInt(item, 10);
         });
@@ -24,31 +19,24 @@ module.exports = function(app){
             photo: req.body.photo,
             scores: b
         };
-
-        console.log("Name: " + userName);
-        console.log("User score " + userScores);
-
-        var sum = b.reduce((a,b) => a + b, 0);
-        console.log("Sum of users score " + sum);
-        console.log("Best match friend diff " + bestMatch.friendDifference);
+        
 
         for(var i = 0; i < friends.length; i++){
-            console.log(friends[i].name);
             diff = 0;
-            console.log("Total Diff " + diff);
-            console.log("Best match friend diff " + bestMatch.diff);
-
-            var bfriendScore = friends[i].scores.reduce((a,b) => a + b, 0);
-            console.log("Total friend score " + bfriendScore);
-            diff += Math.abs(sum - bfriendScore);
-
-            if(diff <= bestMatch.friendDifference) {
-                bestMatch.name = friends[i].name;
-                bestMatch.photo = friends[i].photo;
-                bestMatch.friendDifference = diff;
+            for(var j = 0; j < friends[i].scores.length; j++){
+              var numberOne = userScores[j];
+              var numberTwo = friends[i].scores[j];
+              diff += Math.abs(numberOne - numberTwo);
             }
-            console.log(diff + " Total Difference");
+            friends[i].difference = diff;
+            arr.push(diff);
         }
+        var min = Math.min(...arr);
+        for(k = 0; k < friends.length; k++){
+        if(friends[k].difference === min){
+            bestMatch = friends[k];
+        }
+        }   
 
         console.log(bestMatch);
         friends.push(userData);
